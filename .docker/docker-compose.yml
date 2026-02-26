@@ -1,0 +1,35 @@
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: .docker/Dockerfile
+    container_name: sample_app
+    command: >-
+      sh -c "
+      if [ \"${DEBUG:-false}\" = 'true' ]; then
+        python -Xfrozen_modules=off -m debugpy --listen 0.0.0.0:5678 --wait-for-client -m uvicorn sample_app.api.asgi:app --host=0.0.0.0 --port 8080;
+      else
+        python -m uvicorn sample_app.api.asgi:app --host=0.0.0.0 --port 8080 --reload;
+      fi"
+    ports:
+      - 5678:5678 # debugpy
+      - 8080:8080 # uvicorn
+    volumes:
+      - ../sample_app:/app/sample_app
+      - ../pyproject.toml:/app/pyproject.toml
+      - ../poetry.lock:/app/poetry.lock
+      # share the poetry virtual environment with the devcontainer
+      # is there better way to do this? (without sharing the whole home directory)
+      - user-packages:/app/.venv
+    env_file:
+      - ../.env
+    restart: unless-stopped
+    networks:
+      - sample_app_network
+volumes:
+  user-packages:
+    name: user-packages
+    external: true
+networks:
+  sample_app_network:
+    external: true

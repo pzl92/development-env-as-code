@@ -1,0 +1,33 @@
+version: "3"
+
+tasks:
+  init:
+    desc: Create a Docker network and volumes for the development environment.
+    cmds:
+      - docker network create --driver bridge sample_app_network || true
+      - docker volume create user-packages || true
+
+  build_devcontainer:
+    desc: Build the Docker image for the development container.
+    cmds:
+      - cd .devcontainer && docker build -t devcontainer -f Dockerfile .
+
+  # Start through the visual studio code devcontainer extension
+  #   desc: Start the development container.
+  #   cmds:
+  #     - cd .devcontainer && docker-compose -f docker-compose.yml up
+
+  build_app:
+    desc: Build the Docker image for the sample app.
+    cmds:
+      - docker build -t sample_app -f .docker/Dockerfile .
+
+  start_app:
+    desc: Start the sample app
+    cmds:
+      - cd .docker && docker-compose -f docker-compose.yml up
+
+  start_app_debug:
+    desc: Start the sample app with debugpy enabled (listen on port 5678).
+    cmds:
+      - cd .docker && DEBUG=true docker-compose -f docker-compose.yml up

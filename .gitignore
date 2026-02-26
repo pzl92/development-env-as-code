@@ -1,0 +1,27 @@
+# ruff
+./.ruff_cache
+
+# python
+__pycache__/
+.venv/
+
+#ds store
+.DS_Store
+
+#pytest
+./.pytest_cache
+.pytest_cache/
+htmlcov/
+data/
+report.xml
+tmp/
+.coverage
+# mypy
+.mypy_cache
+
+#logs
+
+profiling/*
+!profiling/.gitkeep
+
+.env

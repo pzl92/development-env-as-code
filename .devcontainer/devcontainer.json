@@ -1,0 +1,37 @@
+{
+    "name": "Container to run Python code",
+    "dockerComposeFile": "./docker-compose.yml",
+    "service": "devcontainer",
+    "workspaceFolder": "/devcontainer",
+    "shutdownAction": "stopCompose",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "ms-python.vscode-pylance",
+                "ms-python.debugpy",
+                "charliermarsh.ruff",
+                "redhat.vscode-yaml",
+                "ms-azuretools.vscode-containers"
+            ],
+            "settings": {
+                "python.defaultInterpreterPath": "/devcontainer/.venv/bin/python",
+                "python.analysis.extraPaths": [
+                    "/devcontainer/.venv/lib/python3.14/site-packages"
+                ],
+                "editor.formatOnSave": true,
+                "ruff.importStrategy": "useBundled",
+                "remote.autoForwardPorts": false
+            }
+        }
+    },
+    "forwardPorts": [],
+    "portsAttributes": { // https://stackoverflow.com/questions/73741583/why-automatic-port-forwarding-how-to-prevent-vs-code-from-doing-it
+        "*": {
+            "onAutoForward": "ignore"
+        }
+    },
+    "otherPortsAttributes": {
+        "onAutoForward": "ignore"
+    }
+}

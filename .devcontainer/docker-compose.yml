@@ -1,0 +1,22 @@
+services:
+  devcontainer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: devcontainer
+    user: 1000:1000
+    volumes:
+      - ../:/devcontainer
+      # share the poetry virtual environment with the devcontainer
+      # is there better way to do this? (without sharing the whole home directory)
+      - user-packages:/devcontainer/.venv
+    command: sleep infinity
+    networks:
+      - sample_app_network
+volumes:
+  user-packages:
+    name: user-packages
+    external: true
+networks:
+  sample_app_network:
+    external: true
