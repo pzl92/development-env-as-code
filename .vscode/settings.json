@@ -1,0 +1,8 @@
+{
+    "claudeCode.environmentVariables": [
+        {
+            "name": "CLAUDE_CODE_OAUTH_TOKEN",
+            "value": "${env:CLAUDE_CODE_OAUTH_TOKEN}"
+        }
+    ]
+}
